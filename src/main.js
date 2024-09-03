@@ -1,4 +1,5 @@
 const shop = document.querySelector("#shop")
+let basket=[]
 
 let generateShop = ()=>{
     return shop.innerHTML = (shopItemsData.map((x)=>{
@@ -13,9 +14,9 @@ let generateShop = ()=>{
                     <div class="price-section">
                         <h2>$${price}</h2>
                         <div class="buttons">
-                            <i class="fa-solid fa-minus"></i>
+                            <i onclick='decrement(${id})' class="fa-solid fa-minus"></i>
                             <div id=${id} class="quantity">0</div>
-                            <i class="fa-solid fa-plus"></i>
+                            <i onclick='increment(${id})' class="fa-solid fa-plus"></i>
                         </div>
                     </div>
                 </div>
@@ -24,6 +25,40 @@ let generateShop = ()=>{
 }
 generateShop()
 
+let increment = (id)=>{
+    let selectedItem = id
+    let search = basket.find((x)=>x.id===selectedItem.id)
+    if(search===undefined){
+        basket.push({
+            id:selectedItem.id,
+            item:1
+        })
+    }else{
+        search.item+=1
+    }
+    update(selectedItem.id)
+    //  console.log(basket);
+
+}
+
+let decrement = (id)=>{
+    let selectedItem = id
+    let search = basket.find((x)=>x.id===selectedItem.id)
+    if(search.item===0){
+        return
+    }else{
+        search.item-=1
+    }
+    update(selectedItem.id)
+    // console.log(basket);
+}
+
+let update = (id)=>{
+    let search = basket.find((x)=>x.id===id)
+    document.getElementById(id).innerHTML=search.item
+    // console.log(search.item);
+
+}
 
 function sideBarToggle(){
     const sideBarToggle = document.querySelector(".sideBarToggle")
